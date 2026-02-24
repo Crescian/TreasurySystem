@@ -1,0 +1,8 @@
+/vendor
+/node_modules
+/storage/*
+*.csv
+*.zip
+*.sql
+.env
+.env.*

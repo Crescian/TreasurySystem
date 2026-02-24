@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: treasury_app
+    env_file:
+      - .env.production
+    depends_on:
+      - pgsql
+    networks:
+      - treasury
+    volumes:
+      - ./storage:/var/www/html/storage
+      - ./bootstrap/cache:/var/www/html/bootstrap/cache
+
+  web:
+    image: nginx:alpine
+    container_name: treasury_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx:/etc/nginx/conf.d
+    depends_on:
+      - app
+    networks:
+      - treasury
+
+  pgsql:
+    image: postgres:16.3
+    container_name: treasury_pgsql
+    environment:
+      POSTGRES_DB: treasury_system
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: leonio
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - treasury
+
+networks:
+  treasury:
+
+volumes:
+  pgdata:
