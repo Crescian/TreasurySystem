@@ -4,7 +4,7 @@
             {{ __('Cash Position') }}
         </h2>
     </x-slot>
-    
+    <!-- hello -->
 
     <div class="py-20">
         <div class="max-w-3xl mx-auto text-center">
