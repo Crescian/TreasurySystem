@@ -12,7 +12,7 @@
                     <div class="flex justify-end mb-4">
 
                         <button x-data @click.prevent="$dispatch('open-modal', 'employee-modal')"
-                            class="bg-blue-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-blue-700">
+                            class="bg-black-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-black-700">
                             + Add Employee
                         </button>
                     </div>
@@ -104,11 +104,11 @@
             <!-- ✅ Modal Footer -->
             <div class="flex justify-between mt-4 space-x-2">
                 <button onclick="save();"
-                    class="bg-blue-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-blue-700 save">
+                    class="bg-black-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-black-700 save">
                     Save
                 </button>
                 <button onclick="update();"
-                    class="bg-blue-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-blue-700 update">
+                    class="bg-black-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-black-700 update">
                     Update
                 </button>
 
