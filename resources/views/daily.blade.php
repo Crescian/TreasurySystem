@@ -55,14 +55,13 @@
                     <h2 class="text-lg font-medium text-gray-900">
                         {{ __('Bank') }}
                     </h2>
-
                     <p class="mt-1 text-sm text-gray-600">
                         {{ __('This section allows you to manage and select your preferred bank for treasury operations, ensuring efficient financial transactions and services.') }}
                     </p>
 
                     <div class="bank">
                         <div class="flex flex-wrap gap-4 mt-2">
-                            <div class="w-full sm:w-1/2 md:w-1/4">
+                            <div class="w-full">
                                 <label for="flow_type" class="block text-sm font-medium text-gray-700">Flow
                                     Type</label>
                                 <select id="flow_type" name="flow_type" onchange="getVendorOrCustomer(this.value);"
@@ -73,7 +72,7 @@
                                 </select>
                                 <div class="invalid-feedback">test</div>
                             </div>
-                            <div class="w-full sm:w-1/2 md:w-1/4">
+                            <div class="w-full">
                                 <label for="companies" class="block text-sm font-medium text-gray-700">Companies</label>
                                 <select id="companies" name="companies"
                                     onchange="getBanksSelection(this.value, 'bank', 'account_id');"
@@ -81,7 +80,7 @@
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
-                            <div class="w-full sm:w-1/2 md:w-1/4">
+                            <div class="w-full">
                                 <label for="bank" class="block text-sm font-medium text-gray-700">Bank</label>
                                 <select id="bank" name="bank"
                                     onchange="getAccountDetails(this.value, 'account_id');"
@@ -90,7 +89,7 @@
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
-                            <div class="w-full sm:w-1/2 md:w-1/4">
+                            <div class="w-full">
                                 <label for="account_id" class="block text-sm font-medium text-gray-700">Account
                                     Name</label>
                                 <select id="account_id" name="account_id"
@@ -99,7 +98,7 @@
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
-                            <div class="w-full sm:w-1/2 md:w-1/4 flex items-center gap-2">
+                            <div class="w-full flex items-center gap-2">
                                 <span class="text-sm font-medium text-gray-700">Balance:</span>
                                 <span id="account_balance" class="text-green-600 font-semibold">₱0</span>
                             </div>
@@ -109,7 +108,7 @@
                     <div class="FundTransferSection">
                         <div class="grid grid-cols-2 md:grid-cols-2 gap-6  mt-2">
                             <div class="mb-2">
-                                <div class="w-full sm:w-1/2 md:w-1/4">
+                                <div class="w-full">
                                     <label for="fundTransferFromcompanies"
                                         class="block text-sm font-medium text-gray-700">Companies</label>
                                     <select id="fundTransferFromcompanies" name="fundTransferFromcompanies"
@@ -118,7 +117,7 @@
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
-                                <div class="w-full sm:w-1/2 md:w-1/4 mt-3">
+                                <div class="w-full mt-3">
                                     <label for="FundTransferfromBank"
                                         class="block text-sm font-medium text-gray-700">From Bank</label>
                                     <select id="FundTransferfromBank" name="FundTransferfromBank"
@@ -127,7 +126,7 @@
                                         <option value="">Select ...</option>
                                     </select>
                                 </div>
-                                <div class="w-full sm:w-1/2 md:w-1/4 mt-3">
+                                <div class="w-full mt-3">
                                     <label for="FundTransferFromAccountId"
                                         class="block text-sm font-medium text-gray-700">Account
                                         Name</label>
@@ -137,13 +136,13 @@
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
-                                <div class="w-full sm:w-1/2 md:w-1/4 flex items-center gap-2 mt-3">
+                                <div class="w-full flex items-center gap-2 mt-3">
                                     <span class="text-sm font-medium text-gray-700">Balance:</span>
                                     <span id="from_account_balance" class="text-green-600 font-semibold">₱0</span>
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <div class="w-full sm:w-1/2 md:w-1/4">
+                                <div class="w-full">
                                     <label for="fundTransferTocompanies"
                                         class="block text-sm font-medium text-gray-700">Companies</label>
                                     <select id="fundTransferTocompanies" name="fundTransferTocompanies"
@@ -152,7 +151,7 @@
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
-                                <div class="w-full sm:w-1/2 md:w-1/4 mt-3">
+                                <div class="w-full mt-3">
                                     <label for="FundTransfertoBank" class="block text-sm font-medium text-gray-700">To
                                         Bank</label>
                                     <select id="FundTransfertoBank" name="FundTransfertoBank"
@@ -161,7 +160,7 @@
                                         <option value="">Select ...</option>
                                     </select>
                                 </div>
-                                <div class="w-full sm:w-1/2 md:w-1/4 mt-3">
+                                <div class="w-full mt-3">
                                     <label for="FundTransferToAccountId"
                                         class="block text-sm font-medium text-gray-700">Account
                                         Name</label>
@@ -171,7 +170,7 @@
                                     </select>
                                     <div class="invalid-feedback"></div>
                                 </div>
-                                <div class="w-full sm:w-1/2 md:w-1/4 flex items-center gap-2 mt-3">
+                                <div class="w-full flex items-center gap-2 mt-3">
                                     <span class="text-sm font-medium text-gray-700">Balance:</span>
                                     <span id="to_account_balance" class="text-green-600 font-semibold">₱0</span>
                                 </div>
