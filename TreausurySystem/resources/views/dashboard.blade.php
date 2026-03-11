@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Daily Treasury Dashboards') }}
+                {{ __('Daily Treasury Dashboard') }}
             </h2>
             <div class="flex items-center gap-2">
                 <label for="dashboard-date" class="text-sm font-medium text-gray-600">Date:</label>
