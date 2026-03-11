@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   app:
@@ -6,28 +5,18 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     container_name: treasury_app
-    env_file:
-      - .env.production
-    depends_on:
-      - pgsql
+    expose:
+      - "9000"
     networks:
-      - treasury
-    volumes:
-      - ./storage:/var/www/html/storage
-      - ./bootstrap/cache:/var/www/html/bootstrap/cache
+    - treasury        # ← ADD THIS
 
-  web:
-    image: nginx:alpine
-    container_name: treasury_nginx
-    ports:
-      - "80:80"
-    volumes:
-      - .:/var/www/html
-      - ./docker/nginx:/etc/nginx/conf.d
-    depends_on:
-      - app
+  redis:
+    image: redis:latest
+    container_name: treasury_redis
+    command: ["redis-server", "--appendonly", "yes"]
     networks:
       - treasury
+    restart: unless-stopped
 
   pgsql:
     image: postgres:16.3
@@ -36,13 +25,16 @@ services:
       POSTGRES_DB: treasury_system
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: leonio
+    # Named volume ensures DB persists after container is removed
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
       - treasury
+    restart: unless-stopped
 
 networks:
   treasury:
+    driver: bridge
 
 volumes:
   pgdata:
