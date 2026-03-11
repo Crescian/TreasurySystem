@@ -11,7 +11,7 @@
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-semibold text-gray-700">List of Bank</h3>
                     <button x-data @click.prevent="$dispatch('open-modal', 'add-bank')"
-                        class="bg-blue-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-blue-700">
+                        class="bg-black-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-black-700">
                         + Add Bank
                     </button>
 
