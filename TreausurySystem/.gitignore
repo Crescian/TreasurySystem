@@ -1,7 +1,0 @@
-/vendor
-/node_modules
-*.csv
-*.zip
-*.sql
-.env
-.env.*
