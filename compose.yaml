@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     container_name: treasury_app
+    volumes:
+      - .:/var/www/html
     expose:
       - "9000"
     networks:
@@ -13,7 +15,7 @@ services:
   redis:
     image: redis:latest
     container_name: treasury_redis
-    command: ["redis-server", "--appendonly", "yes"]
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "cmlinux"]
     networks:
       - treasury
     restart: unless-stopped

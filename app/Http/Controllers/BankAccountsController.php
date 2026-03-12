@@ -89,19 +89,21 @@ class BankAccountsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'company_id' => 'required|integer',
             'banks_id' => 'required|integer',
             'account_name' => 'required|string|unique:bank_accounts,account_name',
+            'account_number' => 'required|unique:bank_accounts,account_number',
             'balance' => 'nullable|numeric|between:0,999999999999.99',
+            'balance_type' => 'required',
+            'company_id' => 'required|integer',
         ]);
 
         $bank = BankAccounts::create([
-            'company_id' => $request->company_id,
             'banks_id' => $request->banks_id,
             'account_name' => $request->account_name,
             'account_number' => $request->account_number,
             'balance' => $request->balance,
             'balance_type' => $request->balance_type,
+            'company_id' => $request->company_id,
         ]);
 
         return response()->json([

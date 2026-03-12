@@ -143,13 +143,7 @@
                         <option value="Non-Operating Placements">Non-Operating Placements</option>
                     </select>
 
-                    <select id="newCompany" name="newCompany"
-                        class="block w-full border-gray-300 rounded-md shadow-sm">
-                        {{-- <option value="" disabled selected>Select company</option>
-                        <option value="1">LeOnio Group Corp.</option>
-                        <option value="2">LeOnio Industrial Corp.</option>
-                        <option value="3">LeOnio Ventures Inc.</option>
-                        <option value="4">LeOnio Development Corp.</option> --}}
+                    <select id="newCompany" name="newCompany" class="block w-full border-gray-300 rounded-md shadow-sm">
                     </select>
 
                     <x-primary-button onclick="addAccountNumber();">{{ __('Add Account Number') }}</x-primary-button>
@@ -172,7 +166,7 @@
             url: @json(route('company.show')), // Ensure proper URL formatting
             type: 'GET',
             dataType: 'json', // Specify JSON response type
-            success: function(response) {
+            success: function (response) {
                 $.each(response, (key, value) => {
                     $('#newCompany').append(
                         `<option value="${value.id}">${value.company}</option>`);
@@ -181,50 +175,89 @@
                 });
                 console.log(response);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error("Error fetching companies:", error);
             }
         });
     }
+    const balanceInput = document.getElementById('newBalance');
 
+    balanceInput.addEventListener('input', function (e) {
+        // Remove all non-digit characters first
+        let value = this.value.replace(/\D/g, '');
+
+        // Format with commas
+        this.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    });
     function addAccountNumber() {
         let newCompany = $('#newCompany').val();
         let newAccountName = $('#newAccountName').val();
         let newAccountNumber = $('#newAccountNumber').val();
-        let newBalance = $('#newBalance').val();
+        let newBalance = $('#newBalance').val().replace(/,/g, '');;
+        let newBalanceType = $('#newBalanceType').val();
+        let newCompanyText = $('#newCompany option:selected').text();
         $.ajax({
-            url: "{{ route('bankAccounts.store') }}", // Define the route to handle storing employees
+            url: "{{ route('bankAccounts.store') }}",
             type: 'POST',
             data: {
-                _token: "{{ csrf_token() }}", // Include CSRF token
+                _token: "{{ csrf_token() }}",
                 banks_id: globalID,
                 company_id: newCompany,
                 account_name: newAccountName,
                 account_number: newAccountNumber,
                 balance: newBalance,
                 balance_type: $('#newBalanceType').val(),
-            }, // Serialize the form data
-            success: function(response) {
-                window.dispatchEvent(new CustomEvent('close', {
-                    detail: {
-                        id: 'add-account-modal'
+            },
+
+            success: function (response) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Account Number Successfully Added",
+                    showConfirmButton: false,
+                    timer: 5000,
+                    width: "500px"
+                });
+
+                $('#accountNumbersTable').append(`<tr>
+                    <td class="border p-2 bg-green-200"></td>
+                    <td class="border p-2">${newAccountName}</td>
+                    <td class="border p-2">${newAccountNumber}</td>
+                    <td class="border p-2">${new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', minimumFractionDigits: 2 }).format(newBalance)}</td>
+                    <td class="border p-2">${newBalanceType}</td>
+                    <td class="border p-2">${newCompanyText}</td>
+                    <td class="border p-2">
+                        <button onclick="deleteAccountNumber('${response.id}')" class="text-red-500">
+                            Delete
+                        </button>
+                    </td>
+                </tr>`);
+            },
+
+            error: function (xhr) {
+
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+
+                    if (errors.account_name) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Validation Error",
+                            text: errors.account_name[0]
+                        });
                     }
-                }));
-                // $('#accountNumbersTable').append(`<tr>
-                //             <td class="border p-2 bg-green-200"></td>
-                //             <td class="border p-2">${newAccountName}</td>
-                //             <td class="border p-2">${newAccountNumber}</td>
-                //             <td class="border p-2">${newBalance}</td>
-                //             <td class="border p-2">${response.company}</td>
-                //             <td class="border p-2"><button onclick="deleteAccountNumber('${response.id}')"
-                //                     class="text-red-500">Delete</button></td>
-                //         </tr>`)
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Something went wrong",
+                        text: "Please try again."
+                    });
+                }
             }
         });
     }
 
     function deleteAccountNumber(id) {
-
         $.ajax({
             url: `/bankAccounts/${id}`, // Laravel route to delete
             type: 'DELETE',
@@ -232,8 +265,15 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                     'content') // CSRF token for Laravel
             },
-            success: function(response) {
-                console.log(response);
+            success: function (response) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Deleted Successfully",
+                    showConfirmButton: false,
+                    timer: 5000,
+                    width: "500px"
+                });
             }
         });
 
@@ -249,7 +289,7 @@
         $.ajax({
             url: "{{ asset('json/cities.json') }}", // Corrected URL helper
             type: 'GET', // Changed from POST to GET
-            success: function(response) {
+            success: function (response) {
                 $.each(response, (key, value) => {
                     $('#address').append(`<option value="${value.name}">${value.name}</option>`);
                     $('#editAddress').append(
@@ -275,7 +315,15 @@
                 address: address,
                 contact: contact,
             }, // Serialize the form data
-            success: function(response) {
+            success: function (response) {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Bank Added Successfully",
+                    showConfirmButton: false,
+                    timer: 5000,
+                    width: "500px"
+                });
                 BankListDetails(response.id, bank, address, contact);
             }
         });
@@ -287,7 +335,7 @@
             url: @json(route('bank.show')), // Ensure proper URL formatting
             type: 'GET',
             dataType: 'json', // Specify JSON response type
-            success: function(response) {
+            success: function (response) {
                 if (response.length === 0) {
                     $('.BankList').html(
                         '<div class="alert alert-info">There are currently no bank.</div>');
@@ -328,7 +376,7 @@
                 url: `{{ route('bank.edit', ['id' => ':id']) }}`.replace(':id', id),
                 type: 'GET',
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     // Populate modal fields with employee data
                     $('#editCompany').val(data.company_id);
                     $('#editBank').val(data.bank);
@@ -348,7 +396,7 @@
             url: `{{ route('bankAccounts.show', ['id' => ':id']) }}`.replace(':id', id),
             type: 'GET',
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
 
                 if (data.length === 0) {
@@ -363,7 +411,7 @@
                             <td class="border p-2">${bankAccountCount}</td>
                             <td class="border p-2">${value.account_name}</td>
                             <td class="border p-2">${value.account_number}</td>
-                            <td class="border p-2">${value.balance}</td>
+                            <td class="border p-2">${new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', minimumFractionDigits: 2 }).format(value.balance)}</td>
                             <td class="border p-2">${value.balance_type}</td>
                             <td class="border p-2">${value.company_name}</td>
                             <td class="border p-2"><button onclick="deleteAccountNumber('${value.id}')"
@@ -389,7 +437,7 @@
                 contact: editContact,
                 _token: "{{ csrf_token() }}" // Include CSRF token
             },
-            success: function(response) {
+            success: function (response) {
                 getBanks();
                 // Close the modal
                 window.dispatchEvent(new Event('close-modal'));
