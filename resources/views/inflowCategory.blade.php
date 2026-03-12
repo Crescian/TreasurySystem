@@ -273,8 +273,8 @@
                         <span class="text-gray-600 text-sm font-semibold">${getAcronym(inflowName)}</span>
                     </div>
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800">${inflowN2ame}</h4>
-                        <p class="text-sm text-gray-600">${inflowCategory61212333}</p>
+                        <h4 class="text-lg font-semibold text-gray-800">${inflowName}</h4>
+                        <p class="text-sm text-gray-600">${inflowCategory}</p>
                     </div>
                 </div>
             </div>`);

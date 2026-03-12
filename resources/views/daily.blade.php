@@ -82,8 +82,7 @@
                             </div>
                             <div class="w-full">
                                 <label for="bank" class="block text-sm font-medium text-gray-700">Bank</label>
-                                <select id="bank" name="bank"
-                                    onchange="getAccountDetails(this.value, 'account_id');"
+                                <select id="bank" name="bank" onchange="getAccountDetails(this.value, 'account_id');"
                                     class="w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
                                     <option>Select Bank...</option>
                                 </select>
@@ -286,14 +285,14 @@
         const reportParam = new URLSearchParams(window.location.search).get('report');
         if (reportParam) {
             const $select = $('#report-type');
-            const $opt = $select.find('option').filter(function() { return $(this).val() === reportParam; });
+            const $opt = $select.find('option').filter(function () { return $(this).val() === reportParam; });
             if ($opt.length) {
                 $select.val(reportParam);
                 typeOfReport(reportParam);
             }
         }
 
-        $('input[name="entity_type"]').change(function() {
+        $('input[name="entity_type"]').change(function () {
             const selectedType = $(this).val(); // "customer" or "vendor"
 
             // Capitalize first letter for label
@@ -311,7 +310,7 @@
                 url: `{{ route('inflows.show', ['id' => ':id']) }}`.replace(':id', id),
                 type: 'GET',
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     console.log(response);
                     $('#inflow_name').html('');
                     $('#inflow_name').append(`<option value="" disabled selected>Select ...</option>`);
@@ -320,7 +319,7 @@
                             `<option value="${value.inflow}">${value.inflow}</option>`);
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("Error fetching inflow names:", error);
                 }
             });
@@ -346,7 +345,7 @@
                 url: url, // Ensure proper URL formatting
                 type: 'GET',
                 dataType: 'json', // Specify JSON response type
-                success: function(response) {
+                success: function (response) {
                     if (response.length === 0) {
                         $('#vendorcustomer').append(
                             `<option value="" disabled selected>Currently No data ...</option>`);
@@ -358,7 +357,7 @@
                     });
                     console.log(response);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("Error fetching companies:", error);
                 }
             });
@@ -380,7 +379,7 @@
                 url: @json(route('company.show')), // Ensure proper URL formatting
                 type: 'GET',
                 dataType: 'json', // Specify JSON response type
-                success: function(response) {
+                success: function (response) {
                     $.each(response, (key, value) => {
                         $('#companies').append(`<option value="${value.id}">${value.company}</option>`);
                         $('#fundTransferFromcompanies').append(
@@ -390,7 +389,7 @@
                     });
                     console.log(response);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("Error fetching companies:", error);
                 }
             });
@@ -404,7 +403,7 @@
             $.ajax({
                 url: `{{ route('bank.showSelection', ':id') }}`.replace(':id', id),
                 type: 'GET', // Changed from POST to GET
-                success: function(response) {
+                success: function (response) {
                     console.log(response);
                     $.each(response, (key, value) => {
                         $('#' + bank).append(
@@ -414,44 +413,53 @@
                 }
             });
         }
+        function clearAllInputs() {
+            // Text, number, date, textarea
+            $('input, textarea').val('');
 
+            // Select - reset to first option
+            $('select').val('');
+
+            // Checkboxes and radio buttons
+            $('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+        }
         function save() {
             let dataValues = {};
             let dataValuesFrom = {};
             let dataValuesTo = {};
             if (typeOfReports === 'Fund Transfer') {
                 if (formValidation('fundTransferFromcompanies', 'FundTransferfromBank', 'FundTransferFromAccountId',
-                        'fundTransferTocompanies', 'FundTransfertoBank', 'FundTransferToAccountId', 'amount', 'date',
-                        'description')) {
+                    'fundTransferTocompanies', 'FundTransfertoBank', 'FundTransferToAccountId', 'amount', 'date',
+                    'description')) {
 
                     const dataArray = [{
-                            banks_id: $('#FundTransferfromBank').val(),
-                            bank_accounts_id: $('#FundTransferFromAccountId').val(),
-                            customer: $('#vendorcustomer').val(),
-                            invoice: $('#invoice').val(),
-                            amount: $('#amount').val(),
-                            company: $('#fundTransferFromcompanies').val(),
-                            date: $('#date').val(),
-                            description: $('#description').val(),
-                            flow_type: "Outflow",
-                            inflow_type: $('#inflow_type').val(),
-                            inflow_name: $('#inflow_name').val(),
-                            _token: "{{ csrf_token() }}"
-                        },
-                        {
-                            banks_id: $('#FundTransfertoBank').val(),
-                            bank_accounts_id: $('#FundTransferToAccountId').val(),
-                            customer: $('#vendorcustomer').val(),
-                            invoice: $('#invoice').val(),
-                            amount: $('#amount').val(),
-                            company: $('#fundTransferTocompanies').val(),
-                            date: $('#date').val(),
-                            description: $('#description').val(),
-                            flow_type: "Inflow",
-                            inflow_type: $('#inflow_type').val(),
-                            inflow_name: $('#inflow_name').val(),
-                            _token: "{{ csrf_token() }}"
-                        }
+                        banks_id: $('#FundTransferfromBank').val(),
+                        bank_accounts_id: $('#FundTransferFromAccountId').val(),
+                        customer: $('#vendorcustomer').val(),
+                        invoice: $('#invoice').val(),
+                        amount: $('#amount').val(),
+                        company: $('#fundTransferFromcompanies').val(),
+                        date: $('#date').val(),
+                        description: $('#description').val(),
+                        flow_type: "Outflow",
+                        inflow_type: $('#inflow_type').val(),
+                        inflow_name: $('#inflow_name').val(),
+                        _token: "{{ csrf_token() }}"
+                    },
+                    {
+                        banks_id: $('#FundTransfertoBank').val(),
+                        bank_accounts_id: $('#FundTransferToAccountId').val(),
+                        customer: $('#vendorcustomer').val(),
+                        invoice: $('#invoice').val(),
+                        amount: $('#amount').val(),
+                        company: $('#fundTransferTocompanies').val(),
+                        date: $('#date').val(),
+                        description: $('#description').val(),
+                        flow_type: "Inflow",
+                        inflow_type: $('#inflow_type').val(),
+                        inflow_name: $('#inflow_name').val(),
+                        _token: "{{ csrf_token() }}"
+                    }
                     ];
 
                     if (Object.keys(dataArray).length !== 0) {
@@ -468,7 +476,7 @@
                                 url: `{{ route('daily.store') }}`,
                                 type: 'POST',
                                 data: dataArray[i],
-                                success: function(data) {
+                                success: function (data) {
                                     console.log('Data saved successfully', data);
 
                                     $.ajax({
@@ -484,7 +492,7 @@
                                             amount: $('#amount').val(),
                                             flow_type: flowType,
                                         },
-                                        success: function(data) {
+                                        success: function (data) {
                                             let type = flowType; // "inflow" or "outflow"
                                             let sign = type === 'Inflow' ? '+' : '-';
                                             let colorClass = type === 'Inflow' ? 'text-green-600' :
@@ -507,18 +515,21 @@
                                                 });
                                             }
                                             saveLogs($('#date').val(), accountId, $(
-                                                    '#amount')
+                                                '#amount')
                                                 .val(), $('#invoice')
-                                                .val(), $('#description').val(), flowType, $(
-                                                    '#vendorcustomer')
-                                                .val(), $('#report-type').val(), $(
-                                                    '#inflow_type').val(), $(
-                                                    '#inflow_name').val()
+                                                    .val(), $('#description').val(), flowType, $(
+                                                        '#vendorcustomer')
+                                                        .val(), $('#report-type').val(), $(
+                                                            '#inflow_type').val(), $(
+                                                                '#inflow_name').val()
                                             );
                                             console.log(data.message);
                                             console.log("New Balance:", data.new_balance);
+                                            setTimeout(function () {
+                                                clearAllInputs();
+                                            }, 2000); // 2000ms = 2 seconds
                                         },
-                                        error: function(xhr) {
+                                        error: function (xhr) {
                                             Swal.fire({
                                                 position: "center", // Centers the alert
                                                 icon: "error",
@@ -537,7 +548,7 @@
                 }
             } else {
                 if (formValidation('flow_type', 'invoice', 'companies', 'bank',
-                        'account_id', 'vendorcustomer', 'inflow_type', 'amount', 'date', 'description')) {
+                    'account_id', 'vendorcustomer', 'inflow_type', 'amount', 'date', 'description')) {
                     dataValues = {
                         banks_id: $('#bank').val(),
                         bank_accounts_id: $('#account_id').val(),
@@ -560,7 +571,7 @@
                         url: `{{ route('daily.store') }}`,
                         type: 'POST',
                         data: dataValues,
-                        success: function(data) {
+                        success: function (data) {
                             console.log('Data saved successfully', data);
 
                             $.ajax({
@@ -577,7 +588,7 @@
                                     amount: $('#amount').val(),
                                     flow_type: $('#flow_type').val(),
                                 },
-                                success: function(data) {
+                                success: function (data) {
                                     let type = $('#flow_type').val(); // "inflow" or "outflow"
                                     let sign = type === 'Inflow' ? '+' : '-';
                                     let colorClass = type === 'Inflow' ? 'text-green-600' :
@@ -595,18 +606,21 @@
                                         `₱${Number(data.new_balance).toLocaleString('en-US')} <span class="${colorClass} font-semibold">(${sign} ₱${$('#amount').val()})</span>`
                                     );
                                     saveLogs($('#date').val(), $('#account_id').val(), $(
-                                            '#amount')
+                                        '#amount')
                                         .val(), $('#invoice')
-                                        .val(), $('#description').val(), $('#flow_type')
-                                        .val(), $('#vendorcustomer')
-                                        .val(), $('#report-type').val(), $('#inflow_type')
-                                        .val(), $(
-                                            '#inflow_name').val()
+                                            .val(), $('#description').val(), $('#flow_type')
+                                                .val(), $('#vendorcustomer')
+                                                    .val(), $('#report-type').val(), $('#inflow_type')
+                                                        .val(), $(
+                                                            '#inflow_name').val()
                                     );
                                     console.log(data.message);
                                     console.log("New Balance:", data.new_balance);
+                                    setTimeout(function () {
+                                        clearAllInputs();
+                                    }, 2000); // 2000ms = 2 seconds
                                 },
-                                error: function(xhr) {
+                                error: function (xhr) {
                                     Swal.fire({
                                         position: "center", // Centers the alert
                                         icon: "error",
@@ -645,7 +659,7 @@
                     inflow_type: inflow_type,
                     inflow_name: inflow_name,
                 }, // Serialize the form data
-                success: function(response) {
+                success: function (response) {
                     console.log(response);
                 }
             });
@@ -665,6 +679,8 @@
 
             $('#account_balance').html("");
             $('#from_account_balance').html("");
+            $('#to_account_balance').html("");
+            
             typeOfReports = val;
             if (val == "Fund Transfer") {
                 $('.inputsDetail').show();
@@ -688,7 +704,7 @@
                 url: `{{ route('bankAccounts.balance', ['id' => ':id']) }}`.replace(':id', id),
                 type: 'GET',
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     $('#' + account_balance).html(`₱${Number(data.balance).toLocaleString('en-US')}`);
                 }
             });
@@ -700,7 +716,7 @@
                 url: `{{ route('bankAccounts.show', ['id' => ':id']) }}`.replace(':id', id),
                 type: 'GET',
                 dataType: 'json',
-                success: function(data) {
+                success: function (data) {
                     if (data.length === 0) {
                         $('#' + accountId).append(`<option value="">No Account Details</option>`);
                     } else {
@@ -721,7 +737,7 @@
                 url: "{{ route('inflowType.show') }}",
                 type: 'GET',
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     console.log(response);
                     $('#inflow_type').html('');
                     $('#inflow_type').append(`<option value="" disabled selected>Select ...</option>`);
@@ -730,7 +746,7 @@
                             `<option value="${value.id}">${value.inflow_name}</option>`);
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("Error fetching inflow types:", error);
                 }
             })
@@ -739,7 +755,7 @@
         function formValidation(...args) {
             let isValidated = true;
 
-            $.each(args, function(i, fieldId) {
+            $.each(args, function (i, fieldId) {
                 const element = $(`#${fieldId}`);
 
                 if (element.length === 0) {
@@ -779,6 +795,8 @@
 
 
         function clearValues() {
+            $('#to_account_balance').html("");
+            $('#from_account_balance').html("");
             $('input').val('');
             $('select').find('option:first').prop('selected', 'selected');
         }
