@@ -31,9 +31,7 @@ class BankController extends Controller
     public function store(Request $request)
     {
         $bank = Bank::create([
-            'bank' => $request->bank,
-            'address' => $request->address,
-            'contact' => $request->contact,
+            'bank' => $request->bank
         ]);
         // Return the newly created Bank's ID
         return response()->json([
@@ -49,9 +47,11 @@ class BankController extends Controller
     public function show(Bank $bank)
     {
         $banks = Bank::select('id', 'bank', 'address', 'contact')
-            ->with(['bankAccounts' => function ($query) {
-                $query->select('id', 'banks_id', 'company_id');
-            }])
+            ->with([
+                'bankAccounts' => function ($query) {
+                    $query->select('id', 'banks_id', 'company_id');
+                }
+            ])
             ->orderBy('bank', 'asc')
             ->get()
             ->map(function ($bank) {

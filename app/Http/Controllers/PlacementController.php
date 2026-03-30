@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
-use App\Models\placement;
+use App\Models\Placement;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -132,7 +132,7 @@ class PlacementController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(placement $placement)
+    public function show(Placement $placement)
     {
         //
     }
@@ -140,7 +140,7 @@ class PlacementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(placement $placement)
+    public function edit(Placement $placement)
     {
         //
     }
@@ -148,7 +148,7 @@ class PlacementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, placement $placement)
+    public function update(Request $request, Placement $placement)
     {
         //
     }
@@ -156,7 +156,7 @@ class PlacementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(placement $placement)
+    public function destroy(Placement $placement)
     {
         //
     }

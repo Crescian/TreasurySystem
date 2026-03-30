@@ -1,60 +1,42 @@
+
 services:
-  laravel.test:
+  app:
     build:
-      context: ./vendor/laravel/sail/runtimes/8.5
-      dockerfile: Dockerfile
-      args:
-        WWWUSER: 1000
-        WWWGROUP: 1000
-    image: sail-8.5/app
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
-    ports:
-      - '${APP_PORT:-80}:80'
-      - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
-    environment:
-      WWWUSER: '${WWWUSER}'
-      LARAVEL_SAIL: 1
-      XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-      XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-      IGNITION_LOCAL_SITES_PATH: '${PWD}'
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: treasury_app
     volumes:
-      - '.:/var/www/html'
+      - .:/var/www/html
+    expose:
+      - "9000"
     networks:
-      - sail
-    depends_on:
-      - pgsql    # only PostgreSQL now
+    - treasury        # ← ADD THIS
+
+  redis:
+    image: redis:latest
+    container_name: treasury_redis
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "cmlinux"]
+    networks:
+      - treasury
+    restart: unless-stopped
 
   pgsql:
     image: postgres:16.3
-    container_name: pgsql
-    ports:
-      - '${FORWARD_DB_PORT:-5432}:5432'
+    container_name: treasury_pgsql
     environment:
       POSTGRES_DB: treasury_system
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: leonio
+    # Named volume ensures DB persists after container is removed
     volumes:
-    - './backup/treasury_system.sql:/docker-entrypoint-initdb.d/10-treasury-system.sql'
-    - 'sail-pgsql:/var/lib/postgresql/data'
+      - pgdata:/var/lib/postgresql/data
     networks:
-      - sail
-    healthcheck:
-      test:
-        - CMD
-        - pg_isready
-        - '-q'
-        - '-d'
-        - 'treasury_system'
-        - '-U'
-        - 'postgres'
-      retries: 5
-      timeout: 5s
+      - treasury
+    restart: unless-stopped
 
 networks:
-  sail:
+  treasury:
     driver: bridge
 
 volumes:
-  sail-pgsql:
-    driver: local
+  pgdata:
