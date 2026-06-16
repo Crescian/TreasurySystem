@@ -185,7 +185,7 @@
                         $('thead').fadeIn(200);
                         $('tbody').fadeIn(200);
                     });
-                }, 1000); // Optional short delay to show spinner briefly
+                }, 50); // Optional short delay to show spinner briefly
             },
             error: function(xhr, status, error) {
                 console.error('Error:', error);

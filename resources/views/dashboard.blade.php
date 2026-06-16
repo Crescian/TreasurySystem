@@ -16,7 +16,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <!-- Intro -->
             <p class="text-sm text-gray-600">
-                {{ __('Monitor daily treasury operations, track cash flow, and access key modules for decision-making and reconciliation.') }}
+                {{ __('Monitor daily treasury operations, track cash flow, and access key modules for decision-making and reconciliations.') }}
             </p>
 
             <!-- KPI Summary Cards -->

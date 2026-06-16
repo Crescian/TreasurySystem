@@ -18,19 +18,17 @@
                     <div class="flex gap-2">
                         <!-- Add Inflow Category -->
                         <button x-data @click.prevent="$dispatch('open-modal', 'add-inflow-category')"
-                            class="bg-blue-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-blue-700">
+                            class="bg-black-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-black-700">
                             + Add Inflow Category
                         </button>
 
                         <!-- Add Outflow Category -->
                         <button x-data @click.prevent="$dispatch('open-modal', 'add-outflow-category')"
-                            class="bg-blue-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-red-700">
+                            class="bg-black-600 text-black border border-black px-4 py-2 rounded-lg hover:bg-black-700">
                             + Add Outflow Category
                         </button>
                     </div>
                 </div>
-
-
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 InflowCategoryList">
                 </div>
@@ -275,8 +273,8 @@
                         <span class="text-gray-600 text-sm font-semibold">${getAcronym(inflowName)}</span>
                     </div>
                     <div>
-                        <h4 class="text-lg font-semibold text-gray-800">${inflowN2ame}</h4>
-                        <p class="text-sm text-gray-600">${inflowCategory61212333}</p>
+                        <h4 class="text-lg font-semibold text-gray-800">${inflowName}</h4>
+                        <p class="text-sm text-gray-600">${inflowCategory}</p>
                     </div>
                 </div>
             </div>`);

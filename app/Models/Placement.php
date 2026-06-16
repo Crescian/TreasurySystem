@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class placement extends Model
+class Placement extends Model
 {
     protected $table = 'placement'; // Specify the table name
     protected $fillable = [

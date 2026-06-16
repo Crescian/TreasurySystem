@@ -5,8 +5,6 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     container_name: treasury_app
-    volumes:
-      - .:/var/www/html
     expose:
       - "9000"
     networks:
@@ -15,7 +13,7 @@ services:
   redis:
     image: redis:latest
     container_name: treasury_redis
-    command: ["redis-server", "--appendonly", "yes", "--requirepass", "cmlinux"]
+    command: ["redis-server", "--appendonly", "yes"]
     networks:
       - treasury
     restart: unless-stopped
@@ -30,8 +28,6 @@ services:
     # Named volume ensures DB persists after container is removed
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5435:5432"   # ← ADD THIS (unique port per DB)
     networks:
       - treasury
     restart: unless-stopped

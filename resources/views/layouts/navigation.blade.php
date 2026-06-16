@@ -105,9 +105,9 @@
                             {{ __('Inflow Category') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('ai')">
+                        <!-- <x-dropdown-link :href="route('ai')">
                             {{ __('AI') }}
-                        </x-dropdown-link>
+                        </x-dropdown-link> -->
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -225,9 +225,9 @@
                     {{ __('Inflow Category') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('ai')">
+                <!-- <x-responsive-nav-link :href="route('ai')">
                     {{ __('AI') }}
-                </x-responsive-nav-link>
+                </x-responsive-nav-link> -->
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
